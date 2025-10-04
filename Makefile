@@ -10,6 +10,9 @@ fmt:
 test:
 	go test -v ./...
 
+# precommit
+pc: fmt test
+
 run:
 	go run ./cmd/mygame
 
