@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"mygame/internal/game"
+	"mygame/internal/gui"
 )
 
 func main() {
-	fmt.Println("hi. 2 + 2 = ", 4)
+	game := game.Game{}
+	gui.RunGui(&game)
 }
