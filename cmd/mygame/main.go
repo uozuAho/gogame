@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	game := game.Game{}
+	game := game.NewGame()
 	gui.RunGui(&game)
 }

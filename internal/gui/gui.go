@@ -14,7 +14,13 @@ type GameAdapter struct {
 }
 
 func (adpt *GameAdapter) Update() error {
-	adpt.game.Update()
+	inputs := game.GameInput{
+		LeftPressed:  ebiten.IsKeyPressed(ebiten.KeyLeft),
+		RightPressed: ebiten.IsKeyPressed(ebiten.KeyRight),
+		DownPressed:  ebiten.IsKeyPressed(ebiten.KeyDown),
+		UpPressed:    ebiten.IsKeyPressed(ebiten.KeyUp),
+	}
+	adpt.game.Update(&inputs)
 	return nil
 }
 
