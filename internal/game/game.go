@@ -19,7 +19,7 @@ type GameInput struct {
 
 func NewGame() Game {
 	return Game{
-		DudeSpeedPerTick: 1,
+		DudeSpeedPerTick: 2,
 		DudePos:          Point2D{300, 300},
 	}
 }
@@ -32,9 +32,9 @@ func (g *Game) Update(input *GameInput) {
 		g.DudePos.Y -= int(g.DudeSpeedPerTick)
 	}
 	if input.LeftPressed {
-		g.DudePos.X += int(g.DudeSpeedPerTick)
+		g.DudePos.X -= int(g.DudeSpeedPerTick)
 	}
 	if input.RightPressed {
-		g.DudePos.X -= int(g.DudeSpeedPerTick)
+		g.DudePos.X += int(g.DudeSpeedPerTick)
 	}
 }

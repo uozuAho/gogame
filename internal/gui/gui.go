@@ -10,22 +10,30 @@ import (
 )
 
 type GameAdapter struct {
-	game *game.Game
+	game      *game.Game
+	dudeImage *ebiten.Image
 }
 
 func (adpt *GameAdapter) Update() error {
 	inputs := game.GameInput{
-		LeftPressed:  ebiten.IsKeyPressed(ebiten.KeyLeft),
-		RightPressed: ebiten.IsKeyPressed(ebiten.KeyRight),
-		DownPressed:  ebiten.IsKeyPressed(ebiten.KeyDown),
-		UpPressed:    ebiten.IsKeyPressed(ebiten.KeyUp),
+		LeftPressed:  ebiten.IsKeyPressed(ebiten.KeyA),
+		RightPressed: ebiten.IsKeyPressed(ebiten.KeyD),
+		DownPressed:  ebiten.IsKeyPressed(ebiten.KeyS),
+		UpPressed:    ebiten.IsKeyPressed(ebiten.KeyW),
 	}
 	adpt.game.Update(&inputs)
 	return nil
 }
 
 func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
+	if adpt.dudeImage == nil {
+		ebitenutil.DebugPrint(screen, "missing dude image")
+		return
+	}
+
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(adpt.game.DudePos.X), float64(adpt.game.DudePos.Y))
+	screen.DrawImage(adpt.dudeImage, op)
 }
 
 func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -33,7 +41,12 @@ func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, s
 }
 
 func RunGui(game *game.Game) {
-	adapter := GameAdapter{game}
+	img, _, err := ebitenutil.NewImageFromFile("assets/img/dude.png")
+	if err != nil {
+		log.Fatalf("failed to load dude image: %v", err)
+	}
+
+	adapter := GameAdapter{game: game, dudeImage: img}
 	ebiten.SetWindowSize(1024, 768)
 	ebiten.SetWindowTitle("Hello, World!")
 	if err := ebiten.RunGame(&adapter); err != nil {
