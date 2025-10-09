@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"image/color"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -34,6 +35,21 @@ func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(float64(adpt.game.DudePos.X), float64(adpt.game.DudePos.Y))
 	screen.DrawImage(adpt.dudeImage, op)
+
+	// Draw a line from the center of the dude to the mouse cursor
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		// get cursor position
+		mx, my := ebiten.CursorPosition()
+
+		// compute dude center
+		w := adpt.dudeImage.Bounds().Dx()
+		h := adpt.dudeImage.Bounds().Dy()
+		dx := float64(adpt.game.DudePos.X) + float64(w)/2
+		dy := float64(adpt.game.DudePos.Y) + float64(h)/2
+
+		// draw red line
+		ebitenutil.DrawLine(screen, dx, dy, float64(mx), float64(my), color.RGBA{R: 255, G: 0, B: 0, A: 255})
+	}
 }
 
 func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
