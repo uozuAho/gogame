@@ -6,6 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"mygame/internal/game"
 )
@@ -47,8 +48,8 @@ func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
 		dx := float64(adpt.game.DudePos.X) + float64(w)/2
 		dy := float64(adpt.game.DudePos.Y) + float64(h)/2
 
-		// draw red line
-		ebitenutil.DrawLine(screen, dx, dy, float64(mx), float64(my), color.RGBA{R: 255, G: 0, B: 0, A: 255})
+		// draw red line using vector.StrokeLine (no anti-aliasing)
+		vector.StrokeLine(screen, float32(dx), float32(dy), float32(mx), float32(my), 2.0, color.RGBA{R: 255, G: 0, B: 0, A: 255}, false)
 	}
 }
 
