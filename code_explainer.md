@@ -11,3 +11,7 @@ Code structure and rules:
 - the game starts from the cli in cmd/mygame
 - all code using the ebiten game engine goes under internal/gui. Nothing depends
   on this code other than the cli.
+
+Help for writing code:
+- ebiten API docs: https://pkg.go.dev/github.com/hajimehoshi/ebiten/v2
+- use make to test, build and format code. See Makefile
