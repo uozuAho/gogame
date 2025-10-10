@@ -37,6 +37,13 @@ func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
 	op.GeoM.Translate(float64(adpt.game.DudePos.X), float64(adpt.game.DudePos.Y))
 	screen.DrawImage(adpt.dudeImage, op)
 
+	for _, e := range adpt.game.Entities {
+		switch t := e.(type) {
+		case *game.Dude:
+			adpt.DrawDude(t, screen)
+		}
+	}
+
 	// Draw a line from the center of the dude to the mouse cursor
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		// get cursor position
@@ -51,6 +58,12 @@ func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
 		// draw red line using vector.StrokeLine (no anti-aliasing)
 		vector.StrokeLine(screen, float32(dx), float32(dy), float32(mx), float32(my), 2.0, color.RGBA{R: 255, G: 0, B: 0, A: 255}, false)
 	}
+}
+
+func (adpt *GameAdapter) DrawDude(dude *game.Dude, screen *ebiten.Image) {
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(dude.Pos.X), float64(dude.Pos.Y))
+	screen.DrawImage(adpt.dudeImage, op)
 }
 
 func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
