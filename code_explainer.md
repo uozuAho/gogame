@@ -5,6 +5,8 @@ engine.
 
 The ultimate goals are:
 - can run headless: run games (quickly) with no UI
+- deterministic: the same initial conditions and sequence of inputs will always
+  result in the same result
 - user can modify game units' behaviour with scripts
 
 Code structure and rules:
