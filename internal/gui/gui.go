@@ -1,19 +1,17 @@
 package gui
 
 import (
-	"image/color"
 	"log"
+	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"mygame/internal/game"
 )
 
 type GameAdapter struct {
-	game      *game.Game
-	dudeImage *ebiten.Image
+	game         *game.Game
+	dudeRenderer *DudeRenderer
 }
 
 func (adpt *GameAdapter) Update() error {
@@ -28,42 +26,28 @@ func (adpt *GameAdapter) Update() error {
 }
 
 func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
-	if adpt.dudeImage == nil {
-		ebitenutil.DebugPrint(screen, "missing dude image")
-		return
-	}
-
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(float64(adpt.game.DudePos.X), float64(adpt.game.DudePos.Y))
-	screen.DrawImage(adpt.dudeImage, op)
-
 	for _, e := range adpt.game.Entities {
 		switch t := e.(type) {
 		case *game.Dude:
-			adpt.DrawDude(t, screen)
+			adpt.dudeRenderer.DrawDude(t, screen)
 		}
 	}
 
-	// Draw a line from the center of the dude to the mouse cursor
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		// get cursor position
-		mx, my := ebiten.CursorPosition()
+	// todo: reimplement this
+	// // Draw a line from the center of the dude to the mouse cursor
+	// if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+	// 	// get cursor position
+	// 	mx, my := ebiten.CursorPosition()
 
-		// compute dude center
-		w := adpt.dudeImage.Bounds().Dx()
-		h := adpt.dudeImage.Bounds().Dy()
-		dx := float64(adpt.game.DudePos.X) + float64(w)/2
-		dy := float64(adpt.game.DudePos.Y) + float64(h)/2
+	// 	// compute dude center
+	// 	w := adpt.dudeImage.Bounds().Dx()
+	// 	h := adpt.dudeImage.Bounds().Dy()
+	// 	dx := float64(adpt.game.DudePos.X) + float64(w)/2
+	// 	dy := float64(adpt.game.DudePos.Y) + float64(h)/2
 
-		// draw red line using vector.StrokeLine (no anti-aliasing)
-		vector.StrokeLine(screen, float32(dx), float32(dy), float32(mx), float32(my), 2.0, color.RGBA{R: 255, G: 0, B: 0, A: 255}, false)
-	}
-}
-
-func (adpt *GameAdapter) DrawDude(dude *game.Dude, screen *ebiten.Image) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(float64(dude.Pos.X), float64(dude.Pos.Y))
-	screen.DrawImage(adpt.dudeImage, op)
+	// 	// draw red line using vector.StrokeLine (no anti-aliasing)
+	// 	vector.StrokeLine(screen, float32(dx), float32(dy), float32(mx), float32(my), 2.0, color.RGBA{R: 255, G: 0, B: 0, A: 255}, false)
+	// }
 }
 
 func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -71,12 +55,12 @@ func (adpt *GameAdapter) Layout(outsideWidth, outsideHeight int) (screenWidth, s
 }
 
 func RunGui(game *game.Game) {
-	img, _, err := ebitenutil.NewImageFromFile("assets/img/dude.png")
-	if err != nil {
-		log.Fatalf("failed to load dude image: %v", err)
+	dudeRenderer := DudeRenderer{}
+	if err := dudeRenderer.init(); err != nil {
+		log.Fatalf("Failed to init. %v", err)
+		os.Exit(1)
 	}
-
-	adapter := GameAdapter{game: game, dudeImage: img}
+	adapter := GameAdapter{game: game, dudeRenderer: &dudeRenderer}
 	ebiten.SetWindowSize(1024, 768)
 	ebiten.SetWindowTitle("Hello, World!")
 	if err := ebiten.RunGame(&adapter); err != nil {
