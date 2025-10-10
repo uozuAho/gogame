@@ -3,6 +3,7 @@ package game
 type Dude struct {
 	SpeedPerTick float32
 	Pos          *Point2D
+	IsShooting   bool
 }
 
 func (d *Dude) Update(g *Game, input *GameInput) {
@@ -18,4 +19,5 @@ func (d *Dude) Update(g *Game, input *GameInput) {
 	if input.RightPressed {
 		d.Pos.X += int(d.SpeedPerTick)
 	}
+	d.IsShooting = input.MouseLeftDown
 }

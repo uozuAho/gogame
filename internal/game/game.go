@@ -7,10 +7,11 @@ type Game struct {
 }
 
 type GameInput struct {
-	LeftPressed  bool
-	RightPressed bool
-	UpPressed    bool
-	DownPressed  bool
+	LeftPressed   bool
+	RightPressed  bool
+	UpPressed     bool
+	DownPressed   bool
+	MouseLeftDown bool
 }
 
 func NewGame() Game {
