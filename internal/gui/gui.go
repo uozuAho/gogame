@@ -47,7 +47,7 @@ func RunGui(game *game.Game) {
 	}
 	adapter := GameAdapter{game: game, dudeRenderer: &dudeRenderer}
 	ebiten.SetWindowSize(1024, 768)
-	ebiten.SetWindowTitle("Hello, World!")
+	ebiten.SetWindowTitle("mygame")
 	if err := ebiten.RunGame(&adapter); err != nil {
 		log.Fatal(err)
 	}

@@ -1,12 +1,17 @@
 package game
 
 type Dude struct {
-	SpeedPerTick float32
-	Pos          *Point2D
-	IsShooting   bool
+	SpeedPerTick       float32
+	Pos                *Point2D
+	IsShooting         bool
+	RespondToUserInput bool
 }
 
 func (d *Dude) Update(g *Game, input *GameInput) {
+	if !d.RespondToUserInput {
+		return
+	}
+
 	if input.DownPressed {
 		d.Pos.Y += int(d.SpeedPerTick)
 	}
