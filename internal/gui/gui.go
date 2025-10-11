@@ -16,12 +16,14 @@ type GameAdapter struct {
 }
 
 func (adpt *GameAdapter) Update() error {
+	cursorPosX, cursorPosY := ebiten.CursorPosition()
 	inputs := game.GameInput{
 		LeftPressed:   ebiten.IsKeyPressed(ebiten.KeyA),
 		RightPressed:  ebiten.IsKeyPressed(ebiten.KeyD),
 		DownPressed:   ebiten.IsKeyPressed(ebiten.KeyS),
 		UpPressed:     ebiten.IsKeyPressed(ebiten.KeyW),
 		MouseLeftDown: ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft),
+		CursorPos:     game.Point2D{X: cursorPosX, Y: cursorPosY},
 	}
 	adpt.game.Update(&inputs)
 	return nil

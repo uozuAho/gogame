@@ -12,6 +12,7 @@ type GameInput struct {
 	UpPressed     bool
 	DownPressed   bool
 	MouseLeftDown bool
+	CursorPos     Point2D
 }
 
 func NewGame() Game {
