@@ -24,7 +24,7 @@ func (rdr *DudeRenderer) init() error {
 	return nil
 }
 
-func (rdr *DudeRenderer) DrawDude(dude *game.Dude, screen *ebiten.Image) {
+func (rdr *DudeRenderer) Draw(dude *game.Dude, screen *ebiten.Image) {
 	if rdr.dudeImage == nil {
 		ebitenutil.DebugPrint(screen, "missing dude image")
 		return

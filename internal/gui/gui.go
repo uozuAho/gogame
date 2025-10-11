@@ -10,8 +10,9 @@ import (
 )
 
 type GameAdapter struct {
-	game         *game.Game
-	dudeRenderer *DudeRenderer
+	game           *game.Game
+	dudeRenderer   *DudeRenderer
+	bulletRenderer *BulletRenderer
 }
 
 func (adpt *GameAdapter) Update() error {
@@ -30,7 +31,9 @@ func (adpt *GameAdapter) Draw(screen *ebiten.Image) {
 	for _, e := range adpt.game.Entities {
 		switch t := e.(type) {
 		case *game.Dude:
-			adpt.dudeRenderer.DrawDude(t, screen)
+			adpt.dudeRenderer.Draw(t, screen)
+		case *game.Bullet:
+			adpt.bulletRenderer.Draw(t, screen)
 		}
 	}
 }
@@ -45,7 +48,16 @@ func RunGui(game *game.Game) {
 		log.Fatalf("Failed to init. %v", err)
 		os.Exit(1)
 	}
-	adapter := GameAdapter{game: game, dudeRenderer: &dudeRenderer}
+	bulletRenderer := BulletRenderer{}
+	if err := bulletRenderer.init(); err != nil {
+		log.Fatalf("Failed to init. %v", err)
+		os.Exit(1)
+	}
+	adapter := GameAdapter{
+		game:           game,
+		dudeRenderer:   &dudeRenderer,
+		bulletRenderer: &bulletRenderer,
+	}
 	ebiten.SetWindowSize(1024, 768)
 	ebiten.SetWindowTitle("mygame")
 	if err := ebiten.RunGame(&adapter); err != nil {
