@@ -23,7 +23,7 @@ func (adpt *GameAdapter) Update() error {
 		DownPressed:   ebiten.IsKeyPressed(ebiten.KeyS),
 		UpPressed:     ebiten.IsKeyPressed(ebiten.KeyW),
 		MouseLeftDown: ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft),
-		CursorPos:     game.Point2D{X: cursorPosX, Y: cursorPosY},
+		CursorPos:     game.Point2D{X: float64(cursorPosX), Y: float64(cursorPosY)},
 	}
 	adpt.game.Update(&inputs)
 	return nil

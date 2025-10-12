@@ -1,5 +1,9 @@
 package game
 
+type Entity interface {
+	Update(g *Game, input *GameInput)
+}
+
 type Game struct {
 	DudeSpeedPerTick float32
 	DudePos          Point2D
