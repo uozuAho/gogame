@@ -1,13 +1,10 @@
 package gui
 
 import (
-	"bytes"
 	"log"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/audio"
-	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 
 	"mygame/internal/game"
 )
@@ -16,37 +13,14 @@ type GameAdapter struct {
 	game           *game.Game
 	dudeRenderer   *DudeRenderer
 	bulletRenderer *BulletRenderer
-	audioCtx       *audio.Context
-	shootWav       []byte
+	audioPlayer    *AudioPlayer
 }
 
 func (adpt *GameAdapter) OnGameEvent(event game.GameEvent) {
 	switch event.Type {
 	case game.EventShoot:
-		adpt.playShootSound()
+		adpt.audioPlayer.PlayShootSound()
 	}
-}
-
-func (adpt *GameAdapter) playShootSound() {
-	if adpt.audioCtx == nil || len(adpt.shootWav) == 0 {
-		return
-	}
-
-	// Play the shot sound in a goroutine so we don't block
-	go func() {
-		r := bytes.NewReader(adpt.shootWav)
-		s, err := wav.Decode(adpt.audioCtx, r)
-		if err != nil {
-			log.Printf("failed to decode shoot wav: %v", err)
-			return
-		}
-		player, err := audio.NewPlayer(adpt.audioCtx, s)
-		if err != nil {
-			log.Printf("failed to create audio player: %v", err)
-			return
-		}
-		player.Play()
-	}()
 }
 
 func (adpt *GameAdapter) Update() error {
@@ -93,19 +67,17 @@ func RunGui(game *game.Game) {
 		log.Fatalf("Failed to init. %v", err)
 		os.Exit(1)
 	}
+	audioPlayer := AudioPlayer{}
+	if err := audioPlayer.Init(); err != nil {
+		log.Fatalf("Failed to init. %v", err)
+		os.Exit(1)
+	}
 	adapter := GameAdapter{
 		game:           game,
 		dudeRenderer:   &dudeRenderer,
 		bulletRenderer: &bulletRenderer,
+		audioPlayer:    &audioPlayer,
 	}
-	const sampleRate = 44100
-	adapter.audioCtx = audio.NewContext(sampleRate)
-	data, err := os.ReadFile("assets/audio/white-short.wav")
-	if err != nil {
-		log.Fatalf("Failed to load shoot wav: %v", err)
-		os.Exit(1)
-	}
-	adapter.shootWav = data
 
 	game.Events.RegisterListener(&adapter)
 
