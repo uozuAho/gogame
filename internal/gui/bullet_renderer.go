@@ -13,8 +13,7 @@ type BulletRenderer struct {
 }
 
 func (rdr *BulletRenderer) init() error {
-	// TODO: bullet image!
-	img, _, err := ebitenutil.NewImageFromFile("assets/img/dude.png")
+	img, _, err := ebitenutil.NewImageFromFile("assets/img/bullet.png")
 	if err != nil {
 		log.Fatalf("failed to load bullet image: %v", err)
 		return err
