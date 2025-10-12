@@ -6,6 +6,7 @@ type Entity interface {
 
 type Game struct {
 	Entities []Entity
+	Events   *EventEmitter
 }
 
 type GameInput struct {
@@ -25,6 +26,7 @@ func NewGame() Game {
 
 	return Game{
 		Entities: entities,
+		Events:   &EventEmitter{},
 	}
 }
 
@@ -32,4 +34,5 @@ func (g *Game) Update(input *GameInput) {
 	for _, e := range g.Entities {
 		e.Update(g, input)
 	}
+	g.Events.DispatchEvents()
 }
