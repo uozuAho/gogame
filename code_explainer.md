@@ -16,5 +16,5 @@ Code structure and rules:
 
 Help for writing code:
 - ebiten API docs: https://pkg.go.dev/github.com/hajimehoshi/ebiten/v2
-- use make to test, build and format code. See Makefile. Do not run custom
+- use make to test, build and format code. See ./Makefile. Do not run custom
   commands unless what you need is not in the Makefile.
