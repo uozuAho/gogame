@@ -19,8 +19,8 @@ type GameInput struct {
 
 func NewGame() Game {
 	entities := []Entity{
-		&Dude{SpeedPerTick: 2, Pos: &Point2D{X: 300, Y: 300}, RespondToUserInput: true},
-		&Dude{SpeedPerTick: 2, Pos: &Point2D{X: 500, Y: 500}},
+		&Dude{SpeedPerTick: 2, Pos: Point2D{X: 300, Y: 300}, RespondToUserInput: true},
+		&Dude{SpeedPerTick: 2, Pos: Point2D{X: 500, Y: 500}},
 	}
 
 	return Game{
