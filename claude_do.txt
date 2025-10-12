@@ -1,0 +1,7 @@
+Currently, gui.go detects mouse clicks to play the shoot sound.
+This seems bad from a code organisation perspective. I think Dude
+or Game should instruct the GUI that certain events have occurred,
+and the GUI respond accordingly. Write your thoughts on this and a
+plan to fix the current code, using maintainable software principles
+and good game programming patterns. Do not modify any code. Write
+the plan to claude_plan.txt.

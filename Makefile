@@ -13,11 +13,11 @@ fmt:
 test:
 	go test ./...
 
-# precommit
-pc: fmt test
-
 build:
 	go build -o bin/mygame ./cmd/mygame
+
+# precommit
+pc: fmt test build
 
 run:
 	go run ./cmd/mygame
