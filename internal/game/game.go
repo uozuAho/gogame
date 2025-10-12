@@ -5,9 +5,7 @@ type Entity interface {
 }
 
 type Game struct {
-	DudeSpeedPerTick float32
-	DudePos          Point2D
-	Entities         []Entity
+	Entities []Entity
 }
 
 type GameInput struct {
@@ -26,9 +24,7 @@ func NewGame() Game {
 	}
 
 	return Game{
-		DudeSpeedPerTick: 2,
-		DudePos:          Point2D{300, 300},
-		Entities:         entities,
+		Entities: entities,
 	}
 }
 

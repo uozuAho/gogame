@@ -1,5 +1,7 @@
 package game
 
+import "fmt"
+
 type Dude struct {
 	SpeedPerTick       float64
 	Pos                *Point2D
@@ -27,13 +29,20 @@ func (dude *Dude) Update(g *Game, input *GameInput) {
 	}
 
 	if input.MouseLeftDown && !dude.prevMouseLeftDown {
-		dir := input.CursorPos.Copy()
-		dir.Subtract(g.DudePos)
+		println("shoot")
+		fmt.Println("cursor: ", input.CursorPos)
+		fmt.Println("dude: ", dude.Pos)
 
-		// if dude.Pos != nil {
-		// 	b := NewBullet(Point2D{X: dude.Pos.X, Y: dude.Pos.Y}, dir)
-		// 	g.Entities = append(g.Entities, b)
-		// }
+		dir := input.CursorPos.Copy()
+		dir.Subtract(*dude.Pos)
+
+		fmt.Println("cursor - dude: ", dir)
+		fmt.Println("(cursor - dude).unit: ", dir.UnitVec())
+
+		if dude.Pos != nil {
+			b := NewBullet(dude.Pos.X, dude.Pos.Y, dir.X, dir.Y)
+			g.Entities = append(g.Entities, b)
+		}
 	}
 
 	dude.IsShooting = input.MouseLeftDown
