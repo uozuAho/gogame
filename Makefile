@@ -1,6 +1,9 @@
 .PHONY: deps fmt lint test build
 
 deps:
+	go mod tidy
+
+deps-upgrade:
 	go get -u ./...
 	go mod tidy
 
@@ -8,7 +11,7 @@ fmt:
 	go fmt ./...
 
 test:
-	go test -v ./...
+	go test ./...
 
 # precommit
 pc: fmt test
