@@ -87,10 +87,14 @@ func RunGui(game *game.Game) {
 		dudeRenderer:   &dudeRenderer,
 		bulletRenderer: &bulletRenderer,
 	}
-	// initialize audio context and in-memory shot sound
 	const sampleRate = 44100
 	adapter.audioCtx = audio.NewContext(sampleRate)
-	adapter.shootWav = GenerateShootWavBytes()
+	data, err := os.ReadFile("assets/audio/white-short.wav")
+	if err != nil {
+		log.Fatalf("Failed to load shoot wav: %v", err)
+		os.Exit(1)
+	}
+	adapter.shootWav = data
 	ebiten.SetWindowSize(1024, 768)
 	ebiten.SetWindowTitle("mygame")
 	if err := ebiten.RunGame(&adapter); err != nil {
