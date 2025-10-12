@@ -8,13 +8,14 @@ type Bullet struct {
 }
 
 func (d *Bullet) Update(g *Game, input *GameInput) {
-	// d.Pos.Add(d.Dir * 20)
+	temp := d.Dir.Copy()
+	temp.Multiply(BulletSpeedPerTick)
+	d.Pos.Add(temp)
 }
 
-// func NewBullet(start Point2D, dir Point2D) *Bullet {
-// 	// todo: implement this
-// 	return &Bullet{
-// 		Pos: Point2D{X: start.X, Y: start.Y},
-// 		Dir: Point2D{X: nx, Y: ny},
-// 	}
-// }
+func NewBullet(px, py, dx, dy float64) *Bullet {
+	return &Bullet{
+		Pos: Point2D{X: px, Y: py},
+		Dir: Point2D{X: dx, Y: dy}.UnitVec(),
+	}
+}
