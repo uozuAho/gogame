@@ -2,7 +2,10 @@ package game
 
 import (
 	"fmt"
+	"math"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestUnitVec_len_is_1(t *testing.T) {
@@ -20,6 +23,24 @@ func TestUnitVec_len_is_1(t *testing.T) {
 			if tt.pt.UnitVec().Len() != 1.0 {
 				t.Errorf("want 1.0, got %v", tt.pt.UnitVec().Len())
 			}
+		})
+	}
+}
+
+func TestDistance(t *testing.T) {
+	tests := []struct {
+		p1       Point2D
+		p2       Point2D
+		expected float64
+	}{
+		{Point2D{X: 0, Y: 0}, Point2D{X: 1, Y: 0}, 1},
+		{Point2D{X: 0, Y: 0}, Point2D{X: 1, Y: 1}, math.Sqrt(2)},
+		{Point2D{X: -2, Y: -3}, Point2D{X: 1, Y: 1}, 5},
+	}
+
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("%v,%v", tt.p1, tt.p2), func(t *testing.T) {
+			assert.Equal(t, tt.expected, tt.p1.DistanceTo(tt.p2))
 		})
 	}
 }

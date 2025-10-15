@@ -20,6 +20,10 @@ func (p Point2D) UnitVec() Point2D {
 	return Point2D{p.X / len, p.Y / len}
 }
 
+func (p1 Point2D) DistanceTo(p2 Point2D) float64 {
+	return math.Hypot(p1.X-p2.X, p1.Y-p2.Y)
+}
+
 func (p1 *Point2D) Copy() Point2D {
 	return Point2D{p1.X, p1.Y}
 }
