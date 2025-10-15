@@ -3,6 +3,7 @@ package game
 type Entity interface {
 	Update(g *Game, input *GameInput)
 	Pos() Point2D
+	IsDead() bool
 }
 
 type Game struct {
@@ -41,6 +42,13 @@ func (g *Game) Update(input *GameInput) {
 	}
 	g.CheckCollisions()
 	g.Events.DispatchEvents()
+	tempE := g.Entities[:0]
+	for _, e := range g.Entities {
+		if !e.IsDead() {
+			tempE = append(tempE, e)
+		}
+	}
+	g.Entities = tempE
 }
 
 func (g *Game) CheckCollisions() {
@@ -56,12 +64,14 @@ func (g *Game) CheckCollisions() {
 				eip, eiIsPlayer := ei.(*Dude)
 				ejp, ejIsPlayer := ej.(*Dude)
 
-				if eiIsBullet && ejIsPlayer {
+				if eiIsBullet && ejIsPlayer && eib.Owner != ejp {
 					g.Events.EmitEvent(GameEvent{Type: EventCollision, EntityID: "", Data: ""})
 					ejp.DoDamage(eib.Damage)
-				} else if eiIsPlayer && ejIsBullet {
+					eib.Kill()
+				} else if eiIsPlayer && ejIsBullet && ejb.Owner != eip {
 					g.Events.EmitEvent(GameEvent{Type: EventCollision, EntityID: "", Data: ""})
 					eip.DoDamage(ejb.Damage)
+					ejb.Kill()
 				}
 			}
 		}

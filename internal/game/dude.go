@@ -29,6 +29,10 @@ func (dude *Dude) DoDamage(damage float64) {
 	dude.HitPoints -= damage
 }
 
+func (dude *Dude) IsDead() bool {
+	return dude.HitPoints <= 0
+}
+
 func (dude *Dude) Update(g *Game, input *GameInput) {
 	if !dude.RespondToUserInput {
 		return
@@ -50,7 +54,7 @@ func (dude *Dude) Update(g *Game, input *GameInput) {
 	if input.MouseLeftDown && !dude.prevMouseLeftDown {
 		dir := input.CursorPos.Copy()
 		dir.Subtract(dude.topLeft)
-		b := NewBullet(dude.topLeft.X, dude.topLeft.Y, dir.X, dir.Y)
+		b := NewBullet(dude.topLeft.X, dude.topLeft.Y, dir.X, dir.Y, dude)
 		g.Entities = append(g.Entities, b)
 
 		g.Events.EmitEvent(GameEvent{
