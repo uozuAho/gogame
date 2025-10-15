@@ -2,7 +2,7 @@ package game
 
 import "math"
 
-// Really just a 2D coord. Could be a point or a vector.
+// Really just a 2D coordinate. Could be a point or a vector.
 type Point2D struct {
 	X float64
 	Y float64

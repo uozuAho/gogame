@@ -1,7 +1,7 @@
-Currently, gui.go detects mouse clicks to play the shoot sound.
-This seems bad from a code organisation perspective. I think Dude
-or Game should instruct the GUI that certain events have occurred,
-and the GUI respond accordingly. Write your thoughts on this and a
-plan to fix the current code, using maintainable software principles
-and good game programming patterns. Do not modify any code. Write
-the plan to claude_plan.txt.
+Write a plan to do damage to Dudes when bullets hit them. The ultimate goal is
+for Dudes to have a number of hit points, which is reduced each time a bullet
+hits them. The plan should have incremental playable steps towards that goal.
+
+I suggest first reading internal/game/bullet.go and internal/game/dude.go.
+
+Write the plan to claude_plan.md

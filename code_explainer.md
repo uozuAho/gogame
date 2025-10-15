@@ -12,7 +12,9 @@ The ultimate goals are:
 Code structure and rules:
 - the game starts from the cli in cmd/mygame
 - all code using the ebiten game engine goes under internal/gui. Nothing depends
-  on this code other than the cli.
+  on this code other than the cli. internal/gui/gui.go contains the Update and
+  Draw functions required by ebiten
+- the game state and update function is in internal/game/game.go
 - use make to test, build and format code. See ./Makefile. Do not run custom
   commands unless what you need is not in the Makefile.
 
