@@ -8,6 +8,17 @@ type Dude struct {
 	IsShooting         bool
 	RespondToUserInput bool
 	prevMouseLeftDown  bool
+	HitPoints          float64
+	MaxHitPoints       float64
+}
+
+func NewDude(pos Point2D) *Dude {
+	return &Dude{
+		SpeedPerTick: 2,
+		Pos:          pos,
+		HitPoints:    100,
+		MaxHitPoints: 100,
+	}
 }
 
 func (dude *Dude) Update(g *Game, input *GameInput) {
