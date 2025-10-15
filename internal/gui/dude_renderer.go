@@ -29,6 +29,6 @@ func (rdr *DudeRenderer) Draw(dude *game.Dude, screen *ebiten.Image) {
 	}
 
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(float64(dude.Pos.X), float64(dude.Pos.Y))
+	op.GeoM.Translate(float64(dude.Pos().X), float64(dude.Pos().Y))
 	screen.DrawImage(rdr.dudeImage, op)
 }

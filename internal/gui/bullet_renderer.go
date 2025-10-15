@@ -29,6 +29,6 @@ func (rdr *BulletRenderer) Draw(bullet *game.Bullet, screen *ebiten.Image) {
 	}
 
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(float64(bullet.Pos.X), float64(bullet.Pos.Y))
+	op.GeoM.Translate(float64(bullet.Pos().X), float64(bullet.Pos().Y))
 	screen.DrawImage(rdr.bulletImage, op)
 }

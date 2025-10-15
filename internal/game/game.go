@@ -2,6 +2,7 @@ package game
 
 type Entity interface {
 	Update(g *Game, input *GameInput)
+	Pos() Point2D
 }
 
 type Game struct {
@@ -19,7 +20,8 @@ type GameInput struct {
 }
 
 func NewGame() Game {
-	tempPlayer := &Dude{SpeedPerTick: 2, Pos: Point2D{X: 300, Y: 300}, RespondToUserInput: true}
+	tempPlayer := NewDude(Point2D{X: 300, Y: 300})
+	tempPlayer.RespondToUserInput = true
 
 	entities := []Entity{
 		tempPlayer,
@@ -38,4 +40,12 @@ func (g *Game) Update(input *GameInput) {
 		e.Update(g, input)
 	}
 	g.Events.DispatchEvents()
+}
+
+func (g *Game) CheckCollisions() {
+	for i := 0; i < len(g.Entities)-1; i++ {
+		for j := i + 1; j < len(g.Entities); j++ {
+
+		}
+	}
 }
