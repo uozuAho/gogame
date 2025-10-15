@@ -1,9 +1,11 @@
 package game
 
 const BulletSpeedPerTick = 20
+const BulletDamage = 10
 
 type Bullet struct {
 	Dir     Point2D // unit vec
+	Damage  float64
 	topLeft Point2D
 }
 
@@ -21,5 +23,6 @@ func NewBullet(px, py, dx, dy float64) *Bullet {
 	return &Bullet{
 		topLeft: Point2D{X: px, Y: py},
 		Dir:     Point2D{X: dx, Y: dy}.UnitVec(),
+		Damage:  BulletDamage,
 	}
 }

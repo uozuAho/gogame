@@ -51,13 +51,17 @@ func (g *Game) CheckCollisions() {
 
 			// todo: extract const
 			if ei.Pos().DistanceTo(ej.Pos()) < 20 {
-				_, eiIsBullet := ei.(*Bullet)
-				_, ejIsBullet := ej.(*Bullet)
-				_, eiIsPlayer := ei.(*Dude)
-				_, ejIsPlayer := ej.(*Dude)
+				eib, eiIsBullet := ei.(*Bullet)
+				ejb, ejIsBullet := ej.(*Bullet)
+				eip, eiIsPlayer := ei.(*Dude)
+				ejp, ejIsPlayer := ej.(*Dude)
 
-				if (eiIsBullet && ejIsPlayer) || (eiIsPlayer && ejIsBullet) {
+				if eiIsBullet && ejIsPlayer {
 					g.Events.EmitEvent(GameEvent{Type: EventCollision, EntityID: "", Data: ""})
+					ejp.DoDamage(eib.Damage)
+				} else if eiIsPlayer && ejIsBullet {
+					g.Events.EmitEvent(GameEvent{Type: EventCollision, EntityID: "", Data: ""})
+					eip.DoDamage(ejb.Damage)
 				}
 			}
 		}

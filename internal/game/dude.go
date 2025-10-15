@@ -25,6 +25,10 @@ func (dude *Dude) Pos() Point2D {
 	return dude.topLeft
 }
 
+func (dude *Dude) DoDamage(damage float64) {
+	dude.HitPoints -= damage
+}
+
 func (dude *Dude) Update(g *Game, input *GameInput) {
 	if !dude.RespondToUserInput {
 		return
