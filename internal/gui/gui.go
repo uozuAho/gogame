@@ -20,6 +20,8 @@ func (adpt *GameAdapter) OnGameEvent(event game.GameEvent) {
 	switch event.Type {
 	case game.EventShoot:
 		adpt.audioPlayer.PlayShootSound()
+	case game.EventCollision:
+		adpt.audioPlayer.PlayHitSound()
 	}
 }
 
