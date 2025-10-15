@@ -39,13 +39,27 @@ func (g *Game) Update(input *GameInput) {
 	for _, e := range g.Entities {
 		e.Update(g, input)
 	}
+	g.CheckCollisions()
 	g.Events.DispatchEvents()
 }
 
 func (g *Game) CheckCollisions() {
 	for i := 0; i < len(g.Entities)-1; i++ {
 		for j := i + 1; j < len(g.Entities); j++ {
+			ei := g.Entities[i]
+			ej := g.Entities[j]
 
+			// todo: extract const
+			if ei.Pos().DistanceTo(ej.Pos()) < 20 {
+				_, eiIsBullet := ei.(*Bullet)
+				_, ejIsBullet := ej.(*Bullet)
+				_, eiIsPlayer := ei.(*Dude)
+				_, ejIsPlayer := ej.(*Dude)
+
+				if (eiIsBullet && ejIsPlayer) || (eiIsPlayer && ejIsBullet) {
+					g.Events.EmitEvent(GameEvent{Type: EventCollision, EntityID: "", Data: ""})
+				}
+			}
 		}
 	}
 }

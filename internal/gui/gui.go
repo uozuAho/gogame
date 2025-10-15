@@ -23,6 +23,12 @@ func (adpt *GameAdapter) OnGameEvent(event game.GameEvent) {
 	}
 }
 
+type EventPrinter struct{}
+
+func (ep *EventPrinter) OnGameEvent(event game.GameEvent) {
+	println(event.Type)
+}
+
 func (adpt *GameAdapter) Update() error {
 	cursorPosX, cursorPosY := ebiten.CursorPosition()
 	mouseDown := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
@@ -80,6 +86,7 @@ func RunGui(game *game.Game) {
 	}
 
 	game.Events.RegisterListener(&adapter)
+	// game.Events.RegisterListener(&EventPrinter{})
 
 	ebiten.SetWindowSize(1024, 768)
 	ebiten.SetWindowTitle("mygame")

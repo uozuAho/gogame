@@ -4,6 +4,7 @@ type EventType int
 
 const (
 	EventShoot EventType = iota
+	EventCollision
 )
 
 type GameEvent struct {
