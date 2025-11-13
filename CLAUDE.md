@@ -1,4 +1,22 @@
-You _must_ read ./code_explainer.md before answering any questions, thinking, or
-making any changes. It contains important instructions and tools for you. If you
-cannot find ./code_explainer.md, or for some reason decide you won't read it,
-STOP EVERYTHING YOU ARE DOING and tell me why.
+Hello humans and robots.
+
+This is a RTS/tower-defense style game, written in go, using ebiten v2.9 as the
+game engine.
+
+The ultimate goals are:
+- can run headless: run games (quickly) with no UI
+- deterministic: the same initial conditions and sequence of inputs will always
+  result in the same result
+- user can modify game units' behaviour with scripts
+
+Code structure and rules:
+- the game starts from the cli in cmd/mygame
+- all code using the ebiten game engine goes under internal/gui. Nothing depends
+  on this code other than the cli. internal/gui/gui.go contains the Update and
+  Draw functions required by ebiten
+- the game state and update function is in internal/game/game.go
+- use make to test, build and format code. See ./Makefile. Do not run custom
+  commands unless what you need is not in the Makefile.
+
+Help for writing code:
+- ebiten API docs: https://pkg.go.dev/github.com/hajimehoshi/ebiten/v2
